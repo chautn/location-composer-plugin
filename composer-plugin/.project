@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-  <name>social-extras-widget-rest</name>
-  <comment>eXo Social Widget (REST Service). NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
-  <projects>
-    <project>social-component-common</project>
-    <project>social-component-core</project>
-    <project>commons-api</project>
-    <project>commons-webui-component</project>
-    <project>commons-component-common</project>
-    <project>commons-component-upgrade</project>
-    <project>commons-component-product</project>
-  </projects>
+  <name>social-location-composer-plugin</name>
+  <comment>eXo Social Location Composer Plugin. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <projects/>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
