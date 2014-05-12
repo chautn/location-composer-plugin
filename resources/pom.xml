@@ -30,7 +30,7 @@
   <name>eXo Social Location Composer Resources</name>
   <description>eXo Social Location Composer Resources</description>
   <build>
-    <finalName>socialLocaltionResources</finalName>
+    <finalName>acme-samples-activity-composer</finalName>
     <plugins>
       <!-- Copy project less files -->
       <plugin>

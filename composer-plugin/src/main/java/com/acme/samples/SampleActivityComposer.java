@@ -15,7 +15,7 @@ import org.exoplatform.webui.event.Event;
 import org.exoplatform.webui.event.EventListener;
 import org.exoplatform.webui.form.UIFormStringInput;
 
-@ComponentConfig(template = "app:templates/com/acme/samples/SampleActivityComposer.gtmpl", events = {
+@ComponentConfig(template = "classpath:groovy/com/acme/samples/SampleActivityComposer.gtmpl", events = {
     @EventConfig(listeners = SampleActivityComposer.CheckinActionListener.class),
     @EventConfig(listeners = UIActivityComposer.CloseActionListener.class),
     @EventConfig(listeners = UIActivityComposer.SubmitContentActionListener.class),
@@ -111,9 +111,6 @@ public class SampleActivityComposer extends UIActivityComposer {
       System.out.println("Checkin button was clicked!");
       WebuiRequestContext requestContext = event.getRequestContext();
       SampleActivityComposer sampleActivityComposer = event.getSource();
-      UIFormStringInput form_ = sampleActivityComposer.getChildById("InputLocation");
-      String city_val = form_.getValue();
-      System.out.println("city_val= " + city_val);
 
       String city;
       try {

@@ -13,8 +13,8 @@
         
         configure: function(params) {
             this.locationValid = params.locationValid || false;
-            this.inputLocationId = params.inputLocationId || 'inputLocation';
-            this.checkinButtonId = params.checkinButtonId || 'checkinButton';
+            this.inputLocationId = params.inputLocationId || 'InputLocation';
+            this.checkinButtonId = params.checkinButtonId || 'CheckinButton';
             this.checkinUrl = decodeURI(params.checkinUrl || "");
             this.location = params.location || '';
         },
@@ -22,9 +22,7 @@
         init: function() {
             LocationComposer = this;
             
-            if (this.locationValid) {
-                //
-            } else {
+            if (this.locationValid === "false") {
                 this.inputLocation = $('#' + this.inputLocationId);
                 this.checkinButton = $('#' + this.checkinButtonId);
                 
@@ -46,7 +44,7 @@
                     if (inputLocation.val() === '') {
                         return;
                     }
-                    var url = LocationComposer.checkinUrl.replace(/&amp;/g, "&") + '&objectId=' + inputLocation.val() + '&ajaxRequest=true';
+                    var url = LocationComposer.checkinUrl.replace(/&amp;/g, "&") + '&objectId=' + encodeURI(inputLocation.val()) + '&ajaxRequest=true';
                     ajaxGet(url, function() {
                         try {
                             $('textarea#composerInput').eXoMentions('showButton', function() {});
