@@ -3,8 +3,22 @@ package com.acme.samples;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.exoplatform.social.core.activity.model.ExoSocialActivity;
+import org.exoplatform.social.core.activity.model.ExoSocialActivityImpl;
+import org.exoplatform.social.core.application.PeopleService;
+import org.exoplatform.social.core.identity.model.Identity;
+import org.exoplatform.social.core.identity.provider.OrganizationIdentityProvider;
+import org.exoplatform.social.core.identity.provider.SpaceIdentityProvider;
+import org.exoplatform.social.core.space.model.Space;
+import org.exoplatform.social.core.space.spi.SpaceService;
+import org.exoplatform.social.webui.Utils;
+import org.exoplatform.social.webui.activity.UIDefaultActivity;
 import org.exoplatform.social.webui.composer.UIActivityComposer;
+import org.exoplatform.social.webui.composer.UIComposer;
 import org.exoplatform.social.webui.composer.UIComposer.PostContext;
+import org.exoplatform.social.webui.profile.UIUserActivitiesDisplay;
+import org.exoplatform.social.webui.profile.UIUserActivitiesDisplay.DisplayMode;
+import org.exoplatform.social.webui.space.UISpaceActivitiesDisplay;
 import org.exoplatform.web.application.ApplicationMessage;
 import org.exoplatform.webui.application.WebuiRequestContext;
 import org.exoplatform.webui.config.annotation.ComponentConfig;
@@ -14,6 +28,7 @@ import org.exoplatform.webui.core.UIComponent;
 import org.exoplatform.webui.event.Event;
 import org.exoplatform.webui.event.EventListener;
 import org.exoplatform.webui.form.UIFormStringInput;
+import org.exoplatform.webui.form.UIFormTextAreaInput;
 
 @ComponentConfig(template = "classpath:groovy/com/acme/samples/SampleActivityComposer.gtmpl", events = {
     @EventConfig(listeners = SampleActivityComposer.CheckinActionListener.class),
@@ -23,21 +38,17 @@ import org.exoplatform.webui.form.UIFormStringInput;
 public class SampleActivityComposer extends UIActivityComposer {
 
   public static final String LOCATION = "location";
-
-  private String location_;
+  
+  private String location_ = "";
 
   private boolean isLocationValid_ = false;
 
   private Map<String, String> templateParams;
 
   public SampleActivityComposer() {
-    System.out.println(SampleActivityComposer.class + ": " + "constructor called!");
-    // WebuiRequestContext requestContext =
     // WebuiRequestContext.getCurrentInstance();
     // ResourceBundle resourceBundle =
     // requestContext.getApplicationResourceBundle();
-    System.out.println("isReady= " + isReadyForPostingActivity());
-    System.out.println("isDisplayed= " + isDisplayed());
     setReadyForPostingActivity(false);
     UIFormStringInput inputLocation = new UIFormStringInput("InputLocation", "InputLocation", null);
     addChild(inputLocation);
@@ -64,7 +75,7 @@ public class SampleActivityComposer extends UIActivityComposer {
   }
 
   public void clearLocation() {
-    location_ = null;
+    location_ = "";
   }
 
   public String getLocation() {
@@ -100,15 +111,54 @@ public class SampleActivityComposer extends UIActivityComposer {
   @Override
   public void onPostActivity(PostContext postContext,
                              UIComponent uiComponent,
-                             WebuiRequestContext webuiRequestContext,
-                             String str) {
+                             WebuiRequestContext requestContext,
+                             String postedMessage) throws Exception {
+    if (postContext == UIComposer.PostContext.SPACE){
+      UISpaceActivitiesDisplay uiDisplaySpaceActivities = (UISpaceActivitiesDisplay) getActivityDisplay();
+      Space space = uiDisplaySpaceActivities.getSpace();
+
+      Identity spaceIdentity = Utils.getIdentityManager().getOrCreateIdentity(SpaceIdentityProvider.NAME,
+                                                               space.getPrettyName(),
+                                                               false);
+      ExoSocialActivity activity = new ExoSocialActivityImpl(Utils.getViewerIdentity().getId(),
+                                   SpaceService.SPACES_APP_ID,
+                                   postedMessage,
+                                   null);
+      activity.setType(UIDefaultActivity.ACTIVITY_TYPE);
+      Utils.getActivityManager().saveActivityNoReturn(spaceIdentity, activity);
+      uiDisplaySpaceActivities.init();
+    } else if (postContext == PostContext.USER) {
+      UIUserActivitiesDisplay uiUserActivitiesDisplay = (UIUserActivitiesDisplay) getActivityDisplay();
+      Identity ownerIdentity = Utils.getIdentityManager().getOrCreateIdentity(OrganizationIdentityProvider.NAME,
+                                                                   uiUserActivitiesDisplay.getOwnerName(), false);
+      if (postedMessage.length() > 0) {
+        postedMessage += "<br>";
+      }
+      
+      if (this.getLocation() != null && this.getLocation().length() > 0) {
+        postedMessage += String.format("I'm %s in location %s.", ownerIdentity.getProfile().getFullName(), this.getLocation());
+      } else {
+        postedMessage += String.format("I'm %s.", ownerIdentity.getProfile().getFullName());
+      }
+      ExoSocialActivity activity = new ExoSocialActivityImpl(Utils.getViewerIdentity().getId(),
+                                       PeopleService.PEOPLE_APP_ID,
+                                       postedMessage,
+                                       null);
+      activity.setType(UIDefaultActivity.ACTIVITY_TYPE);
+      activity.setTemplateParams(templateParams);
+      this.clearLocation();
+      Utils.getActivityManager().saveActivityNoReturn(ownerIdentity, activity);
+
+      this.setLocationValid(false);
+      if (uiUserActivitiesDisplay.getSelectedDisplayMode() == DisplayMode.MY_SPACE) {
+        uiUserActivitiesDisplay.setSelectedDisplayMode(DisplayMode.ALL_ACTIVITIES);
+      }
+    }
   }
 
   public static class CheckinActionListener extends EventListener<SampleActivityComposer> {
     @Override
     public void execute(Event<SampleActivityComposer> event) throws Exception {
-
-      System.out.println("Checkin button was clicked!");
       WebuiRequestContext requestContext = event.getRequestContext();
       SampleActivityComposer sampleActivityComposer = event.getSource();
 
@@ -120,11 +170,14 @@ public class SampleActivityComposer extends UIActivityComposer {
         return;
       }
 
-      System.out.println("City= " + city);
-
+      if (city != null && city.length() > 0) {
+        sampleActivityComposer.setLocationValid(true);
+      } else {
+        sampleActivityComposer.setLocationValid(false);
+      }
+      
       sampleActivityComposer.setLocation(city, requestContext);
-      System.out.println(CheckinActionListener.class + ": " + sampleActivityComposer.location_);
-      if (sampleActivityComposer.location_.length() > 0) {
+      if (sampleActivityComposer.location_ != null && sampleActivityComposer.location_.length() > 0) {
         requestContext.addUIComponentToUpdateByAjax(sampleActivityComposer);
         event.getSource().setReadyForPostingActivity(true);
       }

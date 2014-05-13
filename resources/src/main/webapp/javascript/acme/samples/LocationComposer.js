@@ -47,8 +47,10 @@
                     var url = LocationComposer.checkinUrl.replace(/&amp;/g, "&") + '&objectId=' + encodeURI(inputLocation.val()) + '&ajaxRequest=true';
                     ajaxGet(url, function() {
                         try {
-                            $('textarea#composerInput').eXoMentions('showButton', function() {});
-                        } catch (e) {}
+                        	 $('textarea#composerInput').exoMentions('showButton', function() {});
+                        } catch (e) {
+                        	console.log(e);
+                        }
                     });
                 });
             }
@@ -62,4 +64,4 @@
         }
     };
     return LocationComposer;
-})($);
+})(jq);

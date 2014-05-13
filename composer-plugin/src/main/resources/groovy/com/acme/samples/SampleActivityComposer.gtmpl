@@ -27,7 +27,13 @@
 %>
 <div id="$uicomponentId">
     <div id="LocationComposerContainer" class="uiComposerLink clearfix">
-        <button id="CheckinButton" class="btn pull-right" onclick="<%=uicomponent.event("Checkin")%>;return false;">Check-in</button>
-        <div class="Title Editable"><% uicomponent.renderChild(UIFormStringInput.class); %></div>
+        <button id="CheckinButton" class="btn pull-right">Check-in</button>
+        <div class="Title Editable">
+        <%if (locationValid) {%>
+           <span class="tabName">Localtion: $location</span>
+        <%} else {
+           uicomponent.renderChild(UIFormStringInput.class);
+        }%>
+        </div>
     </div>
 </div>
