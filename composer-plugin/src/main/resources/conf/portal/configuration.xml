@@ -22,24 +22,6 @@
    xmlns="http://www.exoplaform.org/xml/ns/kernel_1_1.xsd">
   <external-component-plugins>
     <target-component>org.exoplatform.webui.ext.UIExtensionManager</target-component>
-	<!--
-    <component-plugin>
-      <name>add.action</name>
-      <set-method>registerUIExtensionPlugin</set-method>
-      <type>org.exoplatform.webui.ext.UIExtensionPlugin</type>
-      <init-params>
-        <object-param>
-          <name>Document Activity</name>
-          <object type="org.exoplatform.social.webui.activity.UIActivityExtension">
-            <field name="type"><string>org.exoplatform.social.webui.activity.BaseUIActivity</string></field>
-            <field name="name"><string>VIDEO_ACTIVITY</string></field>
-            <field name="component"><string>org.exoplatform.social.plugin.youtube.UIVideoActivity</string></field>
-            <field name="activityBuiderClass"><string>org.exoplatform.social.plugin.youtube.UIVideoActivityBuilder</string></field>
-          </object>
-        </object-param>
-      </init-params>
-    </component-plugin>
-	-->
     <component-plugin>
       <name>add.action</name>
       <set-method>registerUIExtensionPlugin</set-method>
@@ -49,7 +31,7 @@
           <name>Sample Activity Composer</name>
           <object type="org.exoplatform.webui.ext.UIExtension">
             <field name="type"><string>org.exoplatform.social.webui.composer.UIActivityComposer</string></field>
-            <field name="name"><string>test-activity-type</string></field>
+            <field name="name"><string>SampleActivityComposer</string></field>
             <field name="component"><string>com.acme.samples.SampleActivityComposer</string></field>
             <field name="rank"><int>1</int></field>
           </object>
@@ -58,26 +40,24 @@
     </component-plugin>
   </external-component-plugins>
 
-  <!--
   <external-component-plugins>
     <target-component>org.exoplatform.services.resources.ResourceBundleService</target-component>
     <component-plugin>
-      <name>Link Composer Plugin Resource Bundle</name>
+      <name>Location Activity Composer Plugin</name>
       <set-method>addResourceBundle</set-method>
       <type>org.exoplatform.services.resources.impl.BaseResourceBundlePlugin</type>
       <init-params>
         <values-param>
           <name>classpath.resources</name>
-          <description>The resources that start with the following package name should be load from file system</description>
-          <value>locale.social.plugin.videolink.UIVideoLinkComposerPlugin</value>
+          <description></description>
+          <value>locale.com.acme.LocationComposer</value>
         </values-param>
         <values-param>
           <name>portal.resource.names</name>
-          <description>The resources that start with the following package name should be load from file system</description>
-          <value>locale.social.plugin.videolink.UIVideoLinkComposerPlugin</value>
+          <description></description>
+          <value>locale.com.acme.LocationComposer</value>
         </values-param>
       </init-params>
     </component-plugin>
   </external-component-plugins>
-  -->
 </configuration>

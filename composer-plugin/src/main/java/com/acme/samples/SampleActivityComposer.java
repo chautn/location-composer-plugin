@@ -2,6 +2,7 @@ package com.acme.samples;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.exoplatform.social.core.activity.model.ExoSocialActivity;
 import org.exoplatform.social.core.activity.model.ExoSocialActivityImpl;
@@ -30,7 +31,7 @@ import org.exoplatform.webui.event.EventListener;
 import org.exoplatform.webui.form.UIFormStringInput;
 import org.exoplatform.webui.form.UIFormTextAreaInput;
 
-@ComponentConfig(template = "classpath:groovy/com/acme/samples/SampleActivityComposer.gtmpl", events = {
+@ComponentConfig(template = "classpath:groovy/com/acme/SampleActivityComposer.gtmpl", events = {
     @EventConfig(listeners = SampleActivityComposer.CheckinActionListener.class),
     @EventConfig(listeners = UIActivityComposer.CloseActionListener.class),
     @EventConfig(listeners = UIActivityComposer.SubmitContentActionListener.class),
@@ -46,16 +47,12 @@ public class SampleActivityComposer extends UIActivityComposer {
   private Map<String, String> templateParams;
 
   public SampleActivityComposer() {
-    // WebuiRequestContext.getCurrentInstance();
-    // ResourceBundle resourceBundle =
-    // requestContext.getApplicationResourceBundle();
+    //WebuiRequestContext requestContext = WebuiRequestContext.getCurrentInstance();
+    //ResourceBundle resourceBundle = requestContext.getApplicationResourceBundle();
+        
     setReadyForPostingActivity(false);
     UIFormStringInput inputLocation = new UIFormStringInput("InputLocation", "InputLocation", null);
     addChild(inputLocation);
-    setReadyForPostingActivity(true);
-    setDisplayed(true);
-    System.out.println("isReady= " + isReadyForPostingActivity());
-    System.out.println("isDisplayed= " + isDisplayed());
   }
 
   public void setLocationValid(boolean isValid) {
@@ -136,9 +133,9 @@ public class SampleActivityComposer extends UIActivityComposer {
       }
       
       if (this.getLocation() != null && this.getLocation().length() > 0) {
-        postedMessage += String.format("I'm %s in location %s.", ownerIdentity.getProfile().getFullName(), this.getLocation());
+        postedMessage += String.format("%s checked in at %s.", ownerIdentity.getProfile().getFullName(), this.getLocation());
       } else {
-        postedMessage += String.format("I'm %s.", ownerIdentity.getProfile().getFullName());
+        postedMessage += String.format("%s checked in at Nowhere.", ownerIdentity.getProfile().getFullName());
       }
       ExoSocialActivity activity = new ExoSocialActivityImpl(Utils.getViewerIdentity().getId(),
                                        PeopleService.PEOPLE_APP_ID,

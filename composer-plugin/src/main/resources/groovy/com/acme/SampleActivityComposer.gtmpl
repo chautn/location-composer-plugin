@@ -2,6 +2,7 @@
     import org.exoplatform.webui.form.UIFormStringInput;
     
     def uicomponentId = uicomponent.id;
+    def labelCheckin = _ctx.appRes("com.acme.LocationComposer.CheckinBtn");
     
     def locationValid = uicomponent.isLocationValid();
     uicomponent.setLocationValid(false);
@@ -27,7 +28,7 @@
 %>
 <div id="$uicomponentId">
     <div id="LocationComposerContainer" class="uiComposerLink clearfix">
-        <button id="CheckinButton" class="btn pull-right">Check-in</button>
+        <button id="CheckinButton" class="btn pull-right">$labelCheckin</button>
         <div class="Title Editable">
         <%if (locationValid) {%>
            <span class="tabName">Localtion: $location</span>
