@@ -47,9 +47,6 @@ public class SampleActivityComposer extends UIActivityComposer {
   private Map<String, String> templateParams;
 
   public SampleActivityComposer() {
-    //WebuiRequestContext requestContext = WebuiRequestContext.getCurrentInstance();
-    //ResourceBundle resourceBundle = requestContext.getApplicationResourceBundle();
-        
     setReadyForPostingActivity(false);
     UIFormStringInput inputLocation = new UIFormStringInput("InputLocation", "InputLocation", null);
     addChild(inputLocation);
@@ -83,7 +80,7 @@ public class SampleActivityComposer extends UIActivityComposer {
     location_ = city;
     if (location_ == null || location_ == "") {
       UIApplication uiApp = requestContext.getUIApplication();
-      uiApp.addMessage(new ApplicationMessage("abc", null, ApplicationMessage.WARNING));
+      uiApp.addMessage(new ApplicationMessage("Invalid location!", null, ApplicationMessage.ERROR));
       return;
     }
 
@@ -105,6 +102,9 @@ public class SampleActivityComposer extends UIActivityComposer {
   public void onClose(Event<UIActivityComposer> uiActivityComposer) {
   }
 
+  /* called when user clicks "Share" button.
+   * create and save activity.
+   */
   @Override
   public void onPostActivity(PostContext postContext,
                              UIComponent uiComponent,
@@ -154,6 +154,8 @@ public class SampleActivityComposer extends UIActivityComposer {
   }
 
   public static class CheckinActionListener extends EventListener<SampleActivityComposer> {
+    
+    // this is called on event "Checkin" (when users clicks Checkin button).
     @Override
     public void execute(Event<SampleActivityComposer> event) throws Exception {
       WebuiRequestContext requestContext = event.getRequestContext();
@@ -163,7 +165,7 @@ public class SampleActivityComposer extends UIActivityComposer {
       try {
         city = requestContext.getRequestParameter(OBJECTID).trim();
       } catch (Exception e) {
-        System.out.println(e.getMessage());
+        System.out.println("Exception when getting OBJECTID!");
         return;
       }
 
