@@ -22,22 +22,20 @@
   <parent>
     <artifactId>social-location-composer</artifactId>
     <groupId>org.exoplatform.social</groupId>
-    <version>4.0.x-SNAPSHOT</version>
+    <version>4.0.x</version>
   </parent>
-  <groupId>org.exoplatform.social</groupId>
-  <artifactId>social-location-composer-plugin</artifactId>
+  <groupId>com.acme.samples</groupId>
+  <artifactId>acme-location-composer-plugin</artifactId>
   <packaging>jar</packaging>
-  <name>eXo Social Location Composer Plugin</name>
-  <description>eXo Social Location Composer Plugin</description>
+  <name>Sample activity composer plugin</name>
+  <description>Sample activity composer plugin</description>
   <dependencies>
-    <!-- These dependency is required to compile but reported as useless by mvn dependency:analyze -->
     <dependency>
       <groupId>org.exoplatform.social</groupId>
       <artifactId>social-component-common</artifactId>
       <version>4.0.4</version>
       <scope>provided</scope>
     </dependency>
-    <!-- social dependencies -->
     <dependency>
       <groupId>org.exoplatform.social</groupId>
       <artifactId>social-component-core</artifactId>
@@ -47,25 +45,25 @@
      <dependency>
       <groupId>org.exoplatform.kernel</groupId>
       <artifactId>exo.kernel.commons</artifactId>
-    <version>2.4.7-GA</version>
+      <version>2.4.7-GA</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.social</groupId>
       <artifactId>social-component-webui</artifactId>
-    <version>4.0.4</version>
+      <version>4.0.4</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.platform-ui</groupId>
       <artifactId>platform-ui-webui-core</artifactId>
-    <version>4.0.4</version>
+      <version>4.0.4</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.gatein.portal</groupId>
       <artifactId>exo.portal.component.web.controller</artifactId>
-    <version>3.5.8-PLF</version>
+      <version>3.5.8-PLF</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

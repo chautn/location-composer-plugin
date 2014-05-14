@@ -25,7 +25,7 @@
     <version>4.0.4</version>
   </parent>
   <artifactId>social-location-composer</artifactId>
-  <version>4.0.x-SNAPSHOT</version>
+  <version>4.0.x</version>
   <packaging>pom</packaging>
   <name>eXo Social - Location Composer</name>
   <description>eXo Social - Location Composer</description>

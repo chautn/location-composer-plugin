@@ -1,5 +1,5 @@
 <web-app>
-  <display-name>acme-samples-activity-composer</display-name>
+  <display-name>acme-extension</display-name>
   <filter>
     <filter-name>ResourceRequestFilter</filter-name>
     <filter-class>org.exoplatform.portal.application.ResourceRequestFilter</filter-class>

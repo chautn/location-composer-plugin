@@ -41,7 +41,7 @@
             <field name="dependencies">
               <collection type="java.util.ArrayList">
                 <value>
-                  <string>acme-samples-activity-composer</string>
+                  <string>acme-extension</string>
                 </value>
               </collection>
             </field>
