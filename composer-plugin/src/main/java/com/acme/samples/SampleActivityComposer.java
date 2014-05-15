@@ -31,7 +31,8 @@ import org.exoplatform.webui.event.EventListener;
 import org.exoplatform.webui.form.UIFormStringInput;
 import org.exoplatform.webui.form.UIFormTextAreaInput;
 
-@ComponentConfig(template = "classpath:groovy/com/acme/SampleActivityComposer.gtmpl", events = {
+
+@ComponentConfig(template = "war:/groovy/com/acme/samples/SampleActivityComposer.gtmpl", events = {
     @EventConfig(listeners = SampleActivityComposer.CheckinActionListener.class),
     @EventConfig(listeners = UIActivityComposer.CloseActionListener.class),
     @EventConfig(listeners = UIActivityComposer.SubmitContentActionListener.class),
